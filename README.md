@@ -22,8 +22,10 @@ This is a light wrapper around SCSB's [RESTful interace](https://uat-recap.htcin
 
 const SCSBRestClient = require('@nypl/scsb-rest-client')
 
-let myResponse = SCSBRestClient.getItemsAvailabilityForBarcodes(this.barcodes)
-.then((itemsStatus) => {
+let scsbClient = new SCSBRestClient({url: "http://theurl.example.com:theports", apiKey: "anAPIKEY"})
+
+let myResponse = scsbClient.getItemsAvailabilityForBarcodes(this.barcodes)
+.then((response) => {
   // do something with the response
 })
 .catch((error) => {
