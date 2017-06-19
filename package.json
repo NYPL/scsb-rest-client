@@ -1,0 +1,38 @@
+{
+  "name": "@nypl/scsb-rest-client",
+  "version": "1.0.0",
+  "description": "A light wrapper around SCSB's RESTful interface",
+  "main": "scsb_rest_client.js",
+  "dependencies": {
+    "request": "2.53.0"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "mocha": "2.2.5",
+    "standard": "6.0.8"
+  },
+  "standard": {
+    "env": {
+      "mocha": true
+    }
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/standard && ./node_modules/.bin/mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NYPL/scsb-rest-client.git"
+  },
+  "keywords": [
+    "scsb",
+    "rest",
+    "nypl",
+    "client"
+  ],
+  "author": "The New York Public Library",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NYPL/scsb-rest-client/issues"
+  },
+  "homepage": "https://github.com/NYPL/scsb-rest-client#readme"
+}
