@@ -33,3 +33,12 @@ let myResponse = scsbClient.getItemsAvailabilityForBarcodes(this.barcodes)
   return Promise.reject(error)
 })
 ```
+
+### Supported Endpoints
+
+See [the SCSB swagger documentation](https://uat-recap.htcinc.com:9093/swagger-ui.html) for the authoritative documentation of each endpoint's params.
+
+| Method     | Endpoint     |
+| :------------- | :------------- |
+| `getItemsAvailabilityForBarcodes(barcodes = [])`|[`/sharedCollection/itemAvailabilityStatus`](https://uat-recap.htcinc.com:9093/swagger-ui.html#!/shared-collection-rest-controller/itemAvailabilityStatus)|
+| `searchByParam(queryParams = {})`|[`/searchService/searchByParam`](https://uat-recap.htcinc.com:9093/swagger-ui.html#!/search-records-rest-controller/search)|
