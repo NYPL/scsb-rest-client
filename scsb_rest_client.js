@@ -16,7 +16,7 @@ class SCSBRestClient {
   // It's keys and values map to the params in /searchService/searchByParam
   searchByParam (queryParams = {}) {
     return new Promise((resolve, reject) => {
-      let options = {
+      const options = {
         url: `${this.url}/searchService/searchByParam`,
         qs: queryParams,
         headers: this._headers()
