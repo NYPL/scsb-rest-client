@@ -42,3 +42,8 @@ See [the SCSB swagger documentation](https://uat-recap.htcinc.com:9093/swagger-u
 | :------------- | :------------- |
 | `getItemsAvailabilityForBarcodes(barcodes = [])`|[`/sharedCollection/itemAvailabilityStatus`](https://uat-recap.htcinc.com:9093/swagger-ui.html#!/shared-collection-rest-controller/itemAvailabilityStatus)|
 | `searchByParam(queryParams = {})`|[`/searchService/searchByParam`](https://uat-recap.htcinc.com:9093/swagger-ui.html#!/search-records-rest-controller/search)|
+
+## Git Workflow
+
+When you _file_ a PR - it should include a version bump.  
+When you _accept_ a PR - you should push a tag named "vTHEVERSION" (e.g. "v1.0.1")
