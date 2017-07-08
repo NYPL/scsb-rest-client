@@ -7,7 +7,7 @@ This is a light wrapper around SCSB's [RESTful interace](https://uat-recap.htcin
 ### With Github
 
 ```
-"@nypl/scsb-rest-client": "git@github.com:NYPL/scsb-rest-client.git#BRANCH-OR-TAG-NAME"
+"@nypl/scsb-rest-client": "https://github.com/NYPL/scsb-rest-client.git#BRANCH-OR-TAG-NAME"
 ```
 
 ### With NPM
