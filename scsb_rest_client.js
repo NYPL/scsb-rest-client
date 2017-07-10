@@ -56,6 +56,46 @@ class SCSBRestClient {
     })
   }
 
+  addRequestItem (data) {
+    if (!data || !Object.keys(data).length) {
+      return Promise.reject('the data parameter is empty or undefined; could not initialize POST request')
+    }
+
+    return new Promise((resolve, reject) => {
+      const options = {
+        url: `${this.url}/requestItem/requestItem`,
+        headers: this._headers(),
+        body: JSON.stringify(data)
+      }
+
+      request.post(options, (error, response, body) => {
+        if (error) {
+          reject(error)
+        }
+
+        if (response) {
+          if (response.statusCode === 200) {
+            resolve(JSON.parse(body))
+          } else {
+            const errorResponse = {
+              errorMessage: 'An error occurred while sending the POST request to the SCSB API'
+            }
+
+            if (response.statusCode) {
+              errorResponse.statusCode = response.statusCode
+            }
+
+            if (response.body) {
+              errorResponse.debugInfo = response.body
+            }
+
+            reject(errorResponse)
+          }
+        }
+      })
+    })
+  }
+
   _headers () {
     return {
       'Accept': 'application/json',
