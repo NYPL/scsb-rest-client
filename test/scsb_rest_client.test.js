@@ -10,7 +10,7 @@ const SCSBRestClient = require('../scsb_rest_client.js')
 
 describe('SCSBRestClient', function () {
   describe('Constructor', () => {
-    it('shoould throw an exception if instaniated without an API Key', function () {
+    it('should throw an exception if instaniated without an API Key', function () {
       expect(function () { new SCSBRestClient({url: 'https://example.com'}) }).to.throw(Error, 'SCSBRestClient must be instaniated with a url and apiKey')
     })
 
@@ -22,22 +22,22 @@ describe('SCSBRestClient', function () {
   describe('addRequestItem function', () => {
     const scsbClient = new SCSBRestClient({ apiKey: 'keepitlikeasecret', url: 'https://example.com' })
 
-    it('Should reject a promise if the data parameter is NULL', () => {
+    it('should reject a promise if the data parameter is NULL', () => {
       const addRequestItemPromise = scsbClient.addRequestItem(null)
       return assert.isRejected(addRequestItemPromise, 'the data parameter is empty or undefined; could not initialize POST request')
     })
 
-    it('Should reject a promise if the data parameter is UNDEFINED', () => {
+    it('should reject a promise if the data parameter is UNDEFINED', () => {
       const addRequestItemPromise = scsbClient.addRequestItem(undefined)
       return assert.isRejected(addRequestItemPromise, 'the data parameter is empty or undefined; could not initialize POST request')
     })
 
-    it('Should reject a promise if the data parameter is an EMPTY Object', () => {
+    it('should reject a promise if the data parameter is an EMPTY Object', () => {
       const addRequestItemPromise = scsbClient.addRequestItem({})
       return assert.isRejected(addRequestItemPromise, 'the data parameter is empty or undefined; could not initialize POST request')
     })
 
-    it('Should reject a promise due to incorrect API_KEY and API_URL', () => {
+    it('should reject a promise due to incorrect API_KEY and API_URL', () => {
       const dummyObject = {
         patronBarcode: '234567890987654',
         itemBarcodes: [ '32101058075084' ],
