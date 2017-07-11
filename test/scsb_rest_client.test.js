@@ -48,7 +48,7 @@ describe('SCSBRestClient', function () {
       return addRequestItemPromise.should.be.rejected.and.should.eventually.include({
         'errorMessage': 'An error occurred while sending the POST request to the SCSB API',
         'statusCode': 404
-      });
+      })
     })
   })
 })
