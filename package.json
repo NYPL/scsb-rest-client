@@ -18,7 +18,7 @@
     }
   },
   "scripts": {
-    "test": "./node_modules/.bin/standard test && ./node_modules/.bin/mocha test",
+    "test": "./node_modules/.bin/standard && ./node_modules/.bin/mocha test",
     "lint": "./node_modules/.bin/standard"
   },
   "repository": {
