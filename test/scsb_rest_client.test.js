@@ -1,6 +1,5 @@
 /* eslint no-new:0*/
 const chai = require('chai')
-const assert = chai.assert
 const expect = chai.expect
 const chaiAsPromised = require('chai-as-promised')
 chai.should()
@@ -24,17 +23,17 @@ describe('SCSBRestClient', function () {
 
     it('should reject a promise if the data parameter is NULL', () => {
       const addRequestItemPromise = scsbClient.addRequestItem(null)
-      return assert.isRejected(addRequestItemPromise, 'the data parameter is empty or undefined; could not initialize POST request')
+      return addRequestItemPromise.should.be.rejectedWith('the data parameter is empty or undefined; could not initialize POST request')
     })
 
     it('should reject a promise if the data parameter is UNDEFINED', () => {
       const addRequestItemPromise = scsbClient.addRequestItem(undefined)
-      return assert.isRejected(addRequestItemPromise, 'the data parameter is empty or undefined; could not initialize POST request')
+      return addRequestItemPromise.should.be.rejectedWith('the data parameter is empty or undefined; could not initialize POST request')
     })
 
     it('should reject a promise if the data parameter is an EMPTY Object', () => {
       const addRequestItemPromise = scsbClient.addRequestItem({})
-      return assert.isRejected(addRequestItemPromise, 'the data parameter is empty or undefined; could not initialize POST request')
+      return addRequestItemPromise.should.be.rejectedWith('the data parameter is empty or undefined; could not initialize POST request')
     })
 
     it('should reject a promise due to incorrect API_KEY and API_URL', () => {
