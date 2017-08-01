@@ -12,9 +12,33 @@ class SCSBRestClient {
     }
   }
 
+  // searchOptions is a simple object.
+  // It's keys and values map to the params in /searchService/search
+  search (searchOptions = {}) {
+    return new Promise((resolve, reject) => {
+      const options = {
+        url: `${this.url}/searchService/search`,
+        body: JSON.stringify(searchOptions),
+        headers: this._headers()
+      }
+
+      request.post(options, (error, response, body) => {
+        if (error) {
+          console.log(error)
+          reject(error)
+        } else if (response && response.statusCode === 200) {
+          resolve(JSON.parse(body))
+        } else {
+          reject(`Error hitting SCSB API ${response.statusCode}: ${response.body}`)
+        }
+      })
+    })
+  }
+
   // queryParams is a simple object.
   // It's keys and values map to the params in /searchService/searchByParam
   searchByParam (queryParams = {}) {
+    console.log('searchByParam has been deprecated. Use \'search\'.')
     return new Promise((resolve, reject) => {
       const options = {
         url: `${this.url}/searchService/searchByParam`,
