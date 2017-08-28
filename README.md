@@ -75,3 +75,8 @@ When you _accept_ a PR - you should:
 #### Deprecated
 
 - `.searchByParam()`
+
+### v1.0.4
+
+#### Updated
+- Updated NPM packages to address npm request module bug [#1595](https://github.com/request/request/issues/1595)
