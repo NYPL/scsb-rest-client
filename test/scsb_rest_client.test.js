@@ -1,4 +1,4 @@
-/* eslint no-new:0*/
+/* eslint no-new:0 */
 const chai = require('chai')
 const expect = chai.expect
 const chaiAsPromised = require('chai-as-promised')

@@ -1,9 +1,9 @@
 # SCSBRestClient
 
-This is a light wrapper around SCSB's [RESTful interace](https://uat-recap.htcinc.com:9093/swagger-ui.html).
+This is a light wrapper around SCSB's [RESTful interace](https://scsb.recaplib.org:9093/swagger-ui.html).
 
 ## Version
-> 1.0.2
+> 1.0.4
 
 ## Install
 
@@ -75,3 +75,8 @@ When you _accept_ a PR - you should:
 #### Deprecated
 
 - `.searchByParam()`
+
+### v1.0.4
+
+#### Updated
+- Updated NPM packages to address npm request module bug [#1595](https://github.com/request/request/issues/1595)

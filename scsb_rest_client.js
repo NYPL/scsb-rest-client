@@ -1,8 +1,7 @@
-var request = require('request')
+const request = require('request')
 
 // myClient = new SCSBRestClient({url: "foo", apiKey: "bar"})
 class SCSBRestClient {
-
   constructor ({url = null, apiKey = null}) {
     this.url = url
     this.apiKey = apiKey
@@ -29,7 +28,7 @@ class SCSBRestClient {
         } else if (response && response.statusCode === 200) {
           resolve(JSON.parse(body))
         } else {
-          reject(`Error hitting SCSB API ${response.statusCode}: ${response.body}`)
+          reject(new Error(`Error hitting SCSB API ${response.statusCode}: ${response.body}`))
         }
       })
     })
@@ -52,7 +51,7 @@ class SCSBRestClient {
         } else if (response && response.statusCode === 200) {
           resolve(JSON.parse(body))
         } else {
-          reject(`Error hitting SCSB API ${response.statusCode}: ${response.body}`)
+          reject(new Error(`Error hitting SCSB API ${response.statusCode}: ${response.body}`))
         }
       })
     })
@@ -74,7 +73,7 @@ class SCSBRestClient {
         } else if (response && response.statusCode === 200) {
           resolve(JSON.parse(body))
         } else {
-          reject(`Error hitting SCSB API ${response.statusCode}: ${response.body}`)
+          reject(new Error(`Error hitting SCSB API ${response.statusCode}: ${response.body}`))
         }
       })
     })
@@ -82,7 +81,9 @@ class SCSBRestClient {
 
   addRequestItem (data) {
     if (!data || !Object.keys(data).length) {
-      return Promise.reject('the data parameter is empty or undefined; could not initialize POST request')
+      return Promise.reject(
+        new Error('the data parameter is empty or undefined; could not initialize POST request')
+      )
     }
 
     return new Promise((resolve, reject) => {
@@ -127,7 +128,6 @@ class SCSBRestClient {
       'Content-Type': 'application/json'
     }
   }
-
 }
 
 module.exports = SCSBRestClient
