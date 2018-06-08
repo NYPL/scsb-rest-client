@@ -80,3 +80,8 @@ When you _accept_ a PR - you should:
 
 #### Updated
 - Updated NPM packages to address npm request module bug [#1595](https://github.com/request/request/issues/1595)
+
+### v1.0.5
+
+#### Updated
+- Updated `request`, `mocha`, `standard` to address vulnerabilities
