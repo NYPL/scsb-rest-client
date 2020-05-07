@@ -4,12 +4,12 @@
   "description": "A light wrapper around SCSB's RESTful interface",
   "main": "scsb_rest_client.js",
   "dependencies": {
-    "request": "^2.87.0"
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "chai": "4.1.1",
     "chai-as-promised": "7.1.1",
-    "mocha": "^5.2.0",
+    "mocha": "^6.2.3",
     "standard": "^11.0.1"
   },
   "standard": {
