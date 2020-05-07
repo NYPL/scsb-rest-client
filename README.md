@@ -3,7 +3,7 @@
 This is a light wrapper around SCSB's [RESTful interace](https://scsb.recaplib.org:9093/swagger-ui.html).
 
 ## Version
-> 1.0.5
+> 1.0.6
 
 ## Install
 
@@ -85,3 +85,6 @@ When you _accept_ a PR - you should:
 
 #### Updated
 - Updated `request`, `mocha`, `standard` to address vulnerabilities
+
+### v1.0.6
+- Updated dependencies for vulnerabilities
