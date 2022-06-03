@@ -3,7 +3,7 @@
 This is a light wrapper around SCSB's [RESTful interace](https://scsb.recaplib.org:9093/swagger-ui.html).
 
 ## Version
-> 1.0.6
+> 2.0.0
 
 ## Install
 
@@ -23,9 +23,12 @@ npm i @nypl/scsb-rest-client --save
 
 ```javascript
 
-const SCSBRestClient = require('@nypl/scsb-rest-client')
+const scsbClient = require('@nypl/scsb-rest-client')
 
-let scsbClient = new SCSBRestClient({ url: "http://theurl.example.com:theports", apiKey: "anAPIKEY" })
+scsbClient.config({
+  url: "http://theurl.example.com:theports",
+  apiKey: "anAPIKEY"
+})
 
 let myResponse = scsbClient.getItemsAvailabilityForBarcodes(this.barcodes)
 .then((response) => {
@@ -44,47 +47,14 @@ See [the SCSB swagger documentation](https://uat-recap.htcinc.com:9093/swagger-u
 | Method     | Endpoint     |
 | :------------- | :------------- |
 | `getItemsAvailabilityForBarcodes(barcodes = [])`|[`/sharedCollection/itemAvailabilityStatus`](https://uat-recap.htcinc.com:9093/swagger-ui.html#!/shared-collection-rest-controller/itemAvailabilityStatus)|
-| `addRequestItem(data = {})`                     |[`/requestItem/requestItem`](https://uat-recap.htcinc.com:9093/swagger-ui.html#!/request-item-rest-controller/requestItem)|
+| `requestItem(data = {})`                     |[`/requestItem/requestItem`](https://uat-recap.htcinc.com:9093/swagger-ui.html#!/request-item-rest-controller/requestItem)|
 | `search(data = {})`                             |[`/searchService/search`](https://uat-recap.htcinc.com:9093/swagger-ui.html#!/search-records-rest-controller/search)|
 | `searchByParam(queryParams = {})`               |`/searchService/searchByParam`(**deprecated**)|
 
-## Git Workflow
+## Contributing
 
-When you _accept_ a PR - you should:
-
-* Do a version bump in master.
-* push a tag named "vTHEVERSION" (e.g. "v1.0.1")
-
-## Changelog
-
-### v1.0.2
-
-#### Added
-- Added new function `addRequestItem` to SCSBClient.
-- Added unit tests via chai-as-promised to test new function `addRequestItem`.
-
-#### Updated
-- Updated ReadMe to reflect new version and added documentation for addRequestItem function.
-
-### v1.0.3
-
-#### Added
-
-- `.search()`
-
-#### Deprecated
-
-- `.searchByParam()`
-
-### v1.0.4
-
-#### Updated
-- Updated NPM packages to address npm request module bug [#1595](https://github.com/request/request/issues/1595)
-
-### v1.0.5
-
-#### Updated
-- Updated `request`, `mocha`, `standard` to address vulnerabilities
-
-### v1.0.6
-- Updated dependencies for vulnerabilities
+ - Cut feature branch from `main`
+ - After review, merge to `main`
+ - Bump version in `package.json` & note changes in `CHANGELOG.md`
+ - `git tag -a v[version]`
+ - `npm publish`
