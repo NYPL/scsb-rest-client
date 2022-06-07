@@ -1,0 +1,15 @@
+{
+  "name": "scsb-rest-client-integration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nypl/scsb-rest-client": "git+https://github.com/NYPL/scsb-rest-client.git#SCC-3130"
+  }
+}
