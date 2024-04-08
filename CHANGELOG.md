@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.0
+
+ - Bump Node version to 20 
+
 ## v2.0.0
  - Rewrote it to use axios
  - Supports concurrency limits

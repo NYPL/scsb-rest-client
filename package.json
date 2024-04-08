@@ -1,6 +1,6 @@
 {
   "name": "@nypl/scsb-rest-client",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A light wrapper around SCSB's RESTful interface",
   "main": "scsb-rest-client.js",
   "dependencies": {
