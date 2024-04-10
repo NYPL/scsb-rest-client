@@ -1,6 +1,6 @@
 {
   "name": "@nypl/scsb-rest-client",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A light wrapper around SCSB's RESTful interface",
   "main": "scsb-rest-client.js",
   "dependencies": {
@@ -10,7 +10,7 @@
   "devDependencies": {
     "chai": "4.1.1",
     "chai-as-promised": "7.1.1",
-    "mocha": "^6.2.3",
+    "mocha": "^10.4.0",
     "nock": "^13.2.4",
     "standard": "^17.0.0"
   },
