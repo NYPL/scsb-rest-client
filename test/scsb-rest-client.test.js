@@ -4,6 +4,7 @@ const nock = require('nock')
 const chai = require('chai')
 const expect = chai.expect
 const chaiAsPromised = require('chai-as-promised')
+const rewire = require('rewire')
 chai.should()
 chai.use(chaiAsPromised)
 
@@ -13,24 +14,24 @@ describe('SCSBRestClient', function () {
 
   beforeEach(() => {
     delete require.cache[require.resolve('../scsb-rest-client')]
-    client = require('../scsb-rest-client')
+    client = rewire('../scsb-rest-client')
   })
 
-  describe('_checkConfig', () => {
-    it('should throw an exception if not configured', function () {
-      expect(() => client.scsbQuery('/path', { param1: 'value' })).to.throw(Error, 'SCSBRestClient must be configured with a url and apiKey')
+  describe('_checkConfig', async () => {
+    it('should throw an exception if not configured', async function () {
+      await expect(client.scsbQuery('/path', { param1: 'value' })).to.be.rejectedWith(Error, 'SCSBRestClient must be configured with a url and apiKey')
     })
 
-    it('should throw an exception if configured without an API Key', function () {
+    it('should throw an exception if configured without an API Key', async function () {
       client.config({ url: 'https://example.com' })
 
-      expect(() => client.scsbQuery('/path', { param1: 'value' })).to.throw(Error, 'SCSBRestClient must be configured with a url and apiKey')
+      await expect(client.scsbQuery('/path', { param1: 'value' })).to.be.rejectedWith(Error, 'SCSBRestClient must be configured with a url and apiKey')
     })
 
-    it('should throw an exception if configured without a URL', function () {
+    it('should throw an exception if configured without a URL', async function () {
       client.config({ apiKey: 'abc123' })
 
-      expect(() => client.scsbQuery('/path', { param1: 'value' })).to.throw(Error, 'SCSBRestClient must be configured with a url and apiKey')
+      await expect(client.scsbQuery('/path', { param1: 'value' })).to.be.rejectedWith(Error, 'SCSBRestClient must be configured with a url and apiKey')
     })
   })
 
@@ -60,19 +61,15 @@ describe('SCSBRestClient', function () {
     })
 
     it('should send auth header to SCSB API', () => {
-      const scope = nock(scsbBaseUrl, {
-        reqheaders: {
-          api_key: 'abc123'
+      client.__set__('fetch', (path, params) => {
+        if (path === scsbBaseUrl + '/path' && params.headers.api_key === 'abc123') {
+          return { status: 200, json: () => { return { someKey: 'value' } } }
         }
       })
-        .post('/path')
-        .reply(200, { someKey: 'value' })
 
       return client.scsbQuery('/path', { param1: 'value' })
         .then((resp) => {
           expect(resp.someKey).to.eq('value')
-
-          scope.done()
         })
     })
   })
@@ -147,9 +144,11 @@ describe('SCSBRestClient', function () {
     })
 
     it('should handle a success', () => {
-      nock(scsbBaseUrl)
-        .post('/requestItem/requestItem')
-        .reply(200, scsbRequestItemSuccess)
+      client.__set__('fetch', (path, params) => {
+        if (path === scsbBaseUrl + '/requestItem/requestItem') {
+          return { status: 200, json: () => { return scsbRequestItemSuccess } }
+        }
+      })
 
       const dummyObject = {
         patronBarcode: '234567890987654',
@@ -167,10 +166,11 @@ describe('SCSBRestClient', function () {
     })
 
     it('should handle a failure', () => {
-      // Emulate receiving an error response from SCSB:
-      nock(scsbBaseUrl)
-        .post('/requestItem/requestItem')
-        .reply(200, scsbRequestItemFailure)
+      client.__set__('fetch', (path, params) => {
+        if (path === scsbBaseUrl + '/requestItem/requestItem') {
+          return { status: 200, json: () => { return scsbRequestItemFailure } }
+        }
+      })
 
       const dummyObject = {
         patronBarcode: '234567890987654',
@@ -209,9 +209,12 @@ describe('SCSBRestClient', function () {
     })
 
     it('should handle a success', () => {
-      nock(scsbBaseUrl)
-        .post('/sharedCollection/itemAvailabilityStatus', { barcodes: ['33433118106339'] })
-        .reply(200, scsbItemAvailabilityResponseSuccess)
+      client.__set__('fetch', (path, params) => {
+        const body = JSON.parse(params.body)
+        if (path === scsbBaseUrl + '/sharedCollection/itemAvailabilityStatus' && body.barcodes[0] === '33433118106339') {
+          return { status: 200, json: () => { return scsbItemAvailabilityResponseSuccess } }
+        }
+      })
 
       const itemAvailability = client.getItemsAvailabilityForBarcodes(['33433118106339'])
 
@@ -219,9 +222,12 @@ describe('SCSBRestClient', function () {
     })
 
     it('should handle a faied lookup', () => {
-      nock(scsbBaseUrl)
-        .post('/sharedCollection/itemAvailabilityStatus', { barcodes: ['33433118106339'] })
-        .reply(200, scsbItemAvailabilityResponseFailure)
+      client.__set__('fetch', (path, params) => {
+        const body = JSON.parse(params.body)
+        if (path === scsbBaseUrl + '/sharedCollection/itemAvailabilityStatus' && body.barcodes[0] === '33433118106339') {
+          return { status: 200, json: () => { return scsbItemAvailabilityResponseFailure } }
+        }
+      })
 
       const itemAvailability = client.getItemsAvailabilityForBarcodes(['33433118106339'])
 
