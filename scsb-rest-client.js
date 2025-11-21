@@ -1,4 +1,4 @@
-const pLimit = require('p-limit').default
+const pLimit = (...args) => import('p-limit').then(({ default: pLimit }) => pLimit(...args))
 
 /**
  *  @typedef {object} ClientOptions
@@ -12,7 +12,7 @@ let options = {
   concurrency: 10
 }
 
-let limit = pLimit(10)
+let limit
 
 /*
  *
@@ -22,7 +22,6 @@ let limit = pLimit(10)
  */
 function config (_options) {
   options = Object.assign(options, _options)
-  limit = pLimit(options.concurrency)
 }
 
 /**
@@ -61,12 +60,12 @@ function requestItem (data) {
  *  @param {object} query - Object with endpoint-specific properties to POST to SCSB API
  */
 async function scsbQuery (path, query) {
+  await _checkConfig()
   return limit(async () => {
     if (!path || typeof path !== 'string') return Promise.reject(new Error('SCSB API path missing or invalid'))
     if (!query || typeof query !== 'object' || !Object.keys(query).length) {
       return Promise.reject(new Error('SCSB API query is empty; could not initialize POST request'))
     }
-    _checkConfig()
 
     const params = {
       method: 'post',
@@ -90,7 +89,10 @@ async function scsbQuery (path, query) {
 /**
  * Check that necessary config has been set (i.e. through client.config({ ... })
  */
-function _checkConfig () {
+async function _checkConfig () {
+  if (!limit) {
+    limit = await pLimit(options.concurrency || 10)
+  }
   if (!options.url || !options.apiKey) {
     throw new Error('SCSBRestClient must be configured with a url and apiKey')
   }

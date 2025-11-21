@@ -39,7 +39,7 @@ describe('SCSBRestClient', function () {
   })
 
   describe('scsbQuery', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       client.config({ apiKey: 'abc123', url: scsbBaseUrl })
     })
 
@@ -78,7 +78,7 @@ describe('SCSBRestClient', function () {
   })
 
   describe('concurrency', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       client.config({ apiKey: 'abc123', url: scsbBaseUrl })
     })
 
@@ -139,7 +139,7 @@ describe('SCSBRestClient', function () {
       { success: false, screenMessage: 'Item not available for request.' }
     )
 
-    beforeEach(() => {
+    beforeEach(async () => {
       client.config({ apiKey: 'abc123', url: scsbBaseUrl })
     })
 
@@ -204,7 +204,7 @@ describe('SCSBRestClient', function () {
       }
     ]
 
-    beforeEach(() => {
+    beforeEach(async () => {
       client.config({ apiKey: 'abc123', url: scsbBaseUrl })
     })
 
