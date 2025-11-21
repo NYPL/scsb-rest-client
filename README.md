@@ -3,7 +3,7 @@
 This is a light wrapper around SCSB's [RESTful interace](https://scsb.recaplib.org:9093/swagger-ui.html).
 
 ## Version
-> 3.0.0
+> 3.1.0
 
 ## Install
 
