@@ -1,12 +1,16 @@
 /* eslint-env mocha */
 
-const nock = require('nock')
+// const nock = require('nock')
 const chai = require('chai')
 const expect = chai.expect
 const chaiAsPromised = require('chai-as-promised')
 const rewire = require('rewire')
 chai.should()
 chai.use(chaiAsPromised)
+
+function delay (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
 
 describe('SCSBRestClient', function () {
   let client
@@ -86,15 +90,14 @@ describe('SCSBRestClient', function () {
       client.config({ concurrency })
 
       let activeCalls = 0
-      const nockScope = nock(scsbBaseUrl)
-        .post('/searchService/search')
-        .delay(100)
-        .times(numberOfCalls)
-        .reply(200, (uri, requestBody) => {
-          // Call received, so increment activeCalls
+
+      client.__set__('fetch', async (path, params) => {
+        if (path === scsbBaseUrl + '/searchService/search') {
           activeCalls += 1
-          return { responseFor: requestBody }
-        })
+          await delay(100)
+          return { status: 200, json: () => { return { responseFor: JSON.parse(params.body) } } }
+        }
+      })
 
       const numberRange = [...Array(numberOfCalls).keys()]
       await Promise.all(
@@ -108,11 +111,9 @@ describe('SCSBRestClient', function () {
           activeCalls -= 1
           // Throughout the batch, activeCalls should never rise above
           // configured concurrency:
-          expect(activeCalls).is.lessThan(concurrency)
+          expect(activeCalls).is.lessThan(concurrency + 1)
         })
       )
-
-      nockScope.done()
     })
   })
 

@@ -1,3 +1,5 @@
+const pLimit = require('p-limit').default
+
 /**
  *  @typedef {object} ClientOptions
  *  @property {string} url - The SCSB API base URL
@@ -10,6 +12,8 @@ let options = {
   concurrency: 10
 }
 
+let limit = pLimit(10)
+
 /*
  *
  *  Apply configuration options to client
@@ -18,6 +22,7 @@ let options = {
  */
 function config (_options) {
   options = Object.assign(options, _options)
+  limit = pLimit(options.concurrency)
 }
 
 /**
@@ -56,28 +61,30 @@ function requestItem (data) {
  *  @param {object} query - Object with endpoint-specific properties to POST to SCSB API
  */
 async function scsbQuery (path, query) {
-  if (!path || typeof path !== 'string') return Promise.reject(new Error('SCSB API path missing or invalid'))
-  if (!query || typeof query !== 'object' || !Object.keys(query).length) {
-    return Promise.reject(new Error('SCSB API query is empty; could not initialize POST request'))
-  }
-  _checkConfig()
-
-  const params = {
-    method: 'post',
-    body: JSON.stringify(query),
-    headers: _headers()
-  }
-
-  try {
-    const response = await fetch(options.url + path, params)
-    if (response.status !== 200) {
-      throw new Error(`Received status ${response.status} requesting ${path} ${params}`)
+  return limit(async () => {
+    if (!path || typeof path !== 'string') return Promise.reject(new Error('SCSB API path missing or invalid'))
+    if (!query || typeof query !== 'object' || !Object.keys(query).length) {
+      return Promise.reject(new Error('SCSB API query is empty; could not initialize POST request'))
     }
-    const json = await response.json()
-    return json
-  } catch (e) {
-    throw new Error(`Error hitting SCSB API ${e}`)
-  }
+    _checkConfig()
+
+    const params = {
+      method: 'post',
+      body: JSON.stringify(query),
+      headers: _headers()
+    }
+
+    try {
+      const response = await fetch(options.url + path, params)
+      if (response.status !== 200) {
+        throw new Error(`Received status ${response.status} requesting ${path} ${params}`)
+      }
+      const json = await response.json()
+      return json
+    } catch (e) {
+      throw new Error(`Error hitting SCSB API ${e}`)
+    }
+  })
 }
 
 /**

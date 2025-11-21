@@ -7,8 +7,8 @@
     "chai": "4.1.1",
     "chai-as-promised": "7.1.1",
     "mocha": "^11.7.5",
-    "rewire": "^6.0.0",
     "nock": "^13.2.4",
+    "rewire": "^6.0.0",
     "standard": "^17.1.2"
   },
   "standard": {
@@ -35,5 +35,8 @@
   "bugs": {
     "url": "https://github.com/NYPL/scsb-rest-client/issues"
   },
-  "homepage": "https://github.com/NYPL/scsb-rest-client#readme"
+  "homepage": "https://github.com/NYPL/scsb-rest-client#readme",
+  "dependencies": {
+    "p-limit": "^7.2.0"
+  }
 }
