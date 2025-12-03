@@ -39,10 +39,7 @@
     "p-limit": "^7.2.0"
   },
   "files": [
-    ".nvmrc",
     "CHANGELOG.md",
-    "README.md",
-    "package.json",
     "scsb-rest-client.js"
   ]
 }
