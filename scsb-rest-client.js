@@ -1,5 +1,4 @@
-const { ConcurrencyManager } = require('axios-concurrency')
-const axios = require('axios')
+const pLimit = (...args) => import('p-limit').then(({ default: pLimit }) => pLimit(...args))
 
 /**
  *  @typedef {object} ClientOptions
@@ -12,6 +11,8 @@ let options = {
   apiKey: null,
   concurrency: 10
 }
+
+let limit
 
 /*
  *
@@ -58,45 +59,40 @@ function requestItem (data) {
  *  @param {string} path - Root relative request path (e.g. /searchService/search)
  *  @param {object} query - Object with endpoint-specific properties to POST to SCSB API
  */
-function scsbQuery (path, query) {
-  if (!path || typeof path !== 'string') return Promise.reject(new Error('SCSB API path missing or invalid'))
-  if (!query || typeof query !== 'object' || !Object.keys(query).length) {
-    return Promise.reject(new Error('SCSB API query is empty; could not initialize POST request'))
-  }
-  _checkConfig()
+async function scsbQuery (path, query) {
+  await _checkConfig()
+  return limit(async () => {
+    if (!path || typeof path !== 'string') return Promise.reject(new Error('SCSB API path missing or invalid'))
+    if (!query || typeof query !== 'object' || !Object.keys(query).length) {
+      return Promise.reject(new Error('SCSB API query is empty; could not initialize POST request'))
+    }
 
-  const request = {
-    method: 'post',
-    url: options.url + path,
-    data: query,
-    headers: _headers(),
-    validateStatus: (status) => status === 200
-  }
+    const params = {
+      method: 'post',
+      body: JSON.stringify(query),
+      headers: _headers()
+    }
 
-  return _axiosClient().request(request)
-    .then((response) => response.data)
-    .catch((e) => {
+    try {
+      const response = await fetch(options.url + path, params)
+      if (response.status !== 200) {
+        throw new Error(`Received status ${response.status} requesting ${path} ${params}`)
+      }
+      const json = await response.json()
+      return json
+    } catch (e) {
       throw new Error(`Error hitting SCSB API ${e}`)
-    })
-}
-
-let _axiosClientInst
-
-/**
- * Get an axios client bound by configured concurrency
- */
-function _axiosClient () {
-  if (!_axiosClientInst) {
-    _axiosClientInst = axios.create()
-    ConcurrencyManager(_axiosClientInst, options.concurrency)
-  }
-  return _axiosClientInst
+    }
+  })
 }
 
 /**
  * Check that necessary config has been set (i.e. through client.config({ ... })
  */
-function _checkConfig () {
+async function _checkConfig () {
+  if (!limit) {
+    limit = await pLimit(options.concurrency || 10)
+  }
   if (!options.url || !options.apiKey) {
     throw new Error('SCSBRestClient must be configured with a url and apiKey')
   }
@@ -119,7 +115,6 @@ module.exports = {
   getItemsAvailabilityForBarcodes,
   requestItem,
   scsbQuery,
-  _axiosClient,
   _checkConfig,
   _headers
 }

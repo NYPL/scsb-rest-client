@@ -1,8 +1,11 @@
 # Changelog
 
+## v3.1.0
+ - Remove axios
+
 ## v3.0.0
 
- - Bump Node version to 20 
+ - Bump Node version to 20
 
 ## v2.0.0
  - Rewrote it to use axios

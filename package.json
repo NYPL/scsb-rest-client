@@ -1,18 +1,14 @@
 {
   "name": "@nypl/scsb-rest-client",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A light wrapper around SCSB's RESTful interface",
   "main": "scsb-rest-client.js",
-  "dependencies": {
-    "axios": "^0.27.2",
-    "axios-concurrency": "^1.0.4"
-  },
   "devDependencies": {
     "chai": "4.1.1",
     "chai-as-promised": "7.1.1",
-    "mocha": "^10.4.0",
-    "nock": "^13.2.4",
-    "standard": "^17.0.0"
+    "mocha": "^11.7.5",
+    "rewire": "^6.0.0",
+    "standard": "^17.1.2"
   },
   "standard": {
     "env": {
@@ -38,5 +34,8 @@
   "bugs": {
     "url": "https://github.com/NYPL/scsb-rest-client/issues"
   },
-  "homepage": "https://github.com/NYPL/scsb-rest-client#readme"
+  "homepage": "https://github.com/NYPL/scsb-rest-client#readme",
+  "dependencies": {
+    "p-limit": "^7.2.0"
+  }
 }
