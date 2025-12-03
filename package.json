@@ -37,5 +37,9 @@
   "homepage": "https://github.com/NYPL/scsb-rest-client#readme",
   "dependencies": {
     "p-limit": "^7.2.0"
-  }
+  },
+  "files": [
+    "CHANGELOG.md",
+    "scsb-rest-client.js"
+  ]
 }
